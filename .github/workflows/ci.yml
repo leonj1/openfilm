@@ -15,7 +15,7 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
-    runs-on: ${{ matrix.os }}
+    runs-on: "${{ (matrix.os) == 'ubuntu-latest' && fromJSON('[\"self-hosted\",\"linux\",\"x64\"]') || (matrix.os) == 'macos-latest' && fromJSON('[\"self-hosted\",\"macOS\",\"ARM64\"]') || (matrix.os) == 'windows-latest' && fromJSON('[\"self-hosted\",\"windows\",\"x64\"]') || (matrix.os) }}"
     # a test that hangs ends the job, not hours later
     timeout-minutes: 45
     env:
@@ -62,7 +62,7 @@ jobs:
   # what npm would get: the tarball of openfilm, listed in the log and checked (no tests, fixtures or dev files; the
   # official product.json)
   pack:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     env:
       ELECTRON_SKIP_BINARY_DOWNLOAD: '1'
     steps:
@@ -76,7 +76,7 @@ jobs:
       - run: pnpm check:pack
 
   audit:
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     env:
       GITLEAKS_VERSION: 8.30.1
     steps:

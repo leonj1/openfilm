@@ -24,7 +24,7 @@ concurrency:
 jobs:
   release:
     if: github.repository == 'openfilm/openfilm'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     permissions:
       contents: write       # the version branch, the packages' tags and GitHub releases
       pull-requests: write  # the "Version packages" pull request

@@ -28,7 +28,7 @@ concurrency:
 jobs:
   plan:
     if: github.repository == 'openfilm/openfilm'
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     environment: desktop-release
     outputs:
       tag: ${{ steps.plan.outputs.tag }}
@@ -62,7 +62,7 @@ jobs:
     needs: plan
     if: needs.plan.outputs.signing == 'true'
     name: build (${{ matrix.target }})
-    runs-on: macos-14
+    runs-on: [self-hosted, macOS, ARM64]
     environment: desktop-release
     strategy:
       fail-fast: true
@@ -146,7 +146,7 @@ jobs:
 
   github-release:
     needs: [plan, build]
-    runs-on: ubuntu-latest
+    runs-on: [self-hosted, linux, x64]
     permissions:
       contents: write
     steps:
